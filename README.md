@@ -1,9 +1,9 @@
 # dual_stream acne detection using roi and deep learning
-## 🔍 What Happens in This Project
+##  What Happens in This Project
 
 This project implements a **multi-stage deep learning pipeline** for skin/acne analysis using PyTorch.
 
-### 🧠 Step-by-Step Pipeline
+###  Step-by-Step Pipeline
 
 1. **Dataset Processing**
 
@@ -46,7 +46,7 @@ This project implements a **multi-stage deep learning pipeline** for skin/acne a
 
 ---
 
-### 🚀 Final Pipeline
+###  Final Pipeline
 
 Input Image
 → Enhancement (AMBAP-Net)
@@ -55,7 +55,7 @@ Input Image
 
 ---
 
-### 🔥 Key Highlights
+###  Key Highlights
 
 * ROI-focused learning improves accuracy
 * Handles lighting and skin tone variations
@@ -64,7 +64,7 @@ Input Image
 
 ---
 
-### 🧪 Output
+###  Output
 
 The model produces:
 
