@@ -1,77 +1,108 @@
-# dual_stream acne detection using roi and deep learning
-##  What Happens in This Project
+#  ROI-Guided Dual-Stream Acne Detection System
 
-This project implements a **multi-stage deep learning pipeline** for skin/acne analysis using PyTorch.
-
-###  Step-by-Step Pipeline
-
-1. **Dataset Processing**
-
-   * Loads images, segmentation masks, and labels
-   * Performs resizing, normalization, and tensor conversion
-   * Prepares data for both segmentation and classification tasks
-
-2. **Preprocessing Network (AMBAP-Net)**
-   The input image is enhanced using a custom pipeline:
-
-   * **Skin Tone Estimation** → learns skin variations
-   * **Adaptive Color Normalization** → adjusts lighting and color
-   * **Illumination Correction** → separates lighting from texture
-   * **Artifact Removal** → removes noise and unwanted patterns
-   * **Texture Enhancement** → improves fine skin details
-   * **ROI Prior** → highlights important regions (acne areas)
-
-3. **Segmentation (U-Net++)**
-
-   * Predicts lesion regions at pixel level
-   * Helps the model focus on acne areas
-
-4. **Classification (ConvNeXt)**
-
-   * Classifies the image into categories (e.g., Acne / Clear)
-   * Uses deep CNN features for accurate prediction
-
-5. **Multi-Task Learning**
-
-   * The model performs **segmentation + classification simultaneously**
-   * Improves performance and robustness
-
-6. **Loss Function**
-   The model is trained using a combination of:
-
-   * Dice Loss → segmentation accuracy
-   * Cross Entropy Loss → classification accuracy
-   * Illumination Loss → lighting consistency
-   * Mask Regularization → cleaner region focus
+##  Overview
+This project proposes a deep learning-based acne detection system that combines ROI-guided learning, dual-stream CNN architecture, Transformer-based feature enhancement, attention-based fusion, and multi-task learning. The model focuses on both global facial features and local lesion regions to improve accuracy and reliability.
 
 ---
 
-###  Final Pipeline
+##  Architecture
 
-Input Image
-→ Enhancement (AMBAP-Net)
-→ Segmentation (U-Net++)
-→ Classification (ConvNeXt)
-
----
-
-###  Key Highlights
-
-* ROI-focused learning improves accuracy
-* Handles lighting and skin tone variations
-* Combines preprocessing + segmentation + classification
-* Designed for real-world robustness
-
----
-
-###  Output
-
-The model produces:
-
-* Segmentation mask (lesion detection)
-* Classification result (skin condition)
-* Additional outputs (illumination, ROI mask)
+Input Image  
+↓  
+DeepLabV3 (ROI Segmentation)  
+↓  
+Full Image + ROI  
+↓  
+Dual CNN Feature Extraction  
+   - Full Image → ResNet50 (Global Features)  
+   - ROI Image → ResNet18 (Local Features)  
+↓  
+Transformer (Global Context Enhancement)  
+↓  
+Attention-Based Feature Fusion  
+↓  
+Multi-Task Outputs  
+   - Classification (Acne / Clear)  
+   - Severity Prediction  
+   - Lesion Count  
 
 ---
 
-📌 Code implementation available here: 
+##  Key Features
+
+- ROI extraction using DeepLabV3 (learned segmentation)
+- Dual-stream architecture (global + local features)
+- Transformer for capturing long-range dependencies
+- Attention mechanism for dynamic feature weighting
+- Multi-task learning for richer feature representation
+
+---
+
+##  Ablation Study Summary
+
+- Removing ROI → Model focuses on background (less reliable)
+- Removing Transformer → Loss of global context
+- Removing Attention → Poor feature prioritization
+- Removing Multi-task → Weak feature learning
+- CNN-only baseline → Lowest performance
+
+ Each component contributes significantly to final performance.
+
+---
+
+## 📊 Results
+
+- High classification accuracy for acne detection
+- Strong diagonal dominance in confusion matrix
+- Improved focus on lesion regions using ROI
+- Better generalization due to multi-task learning
+
+---
+
+## 🎯 Multi-Task Learning
+
+The model predicts multiple outputs from shared features:
+
+- Classification → Acne / Clear
+- Severity → Based on lesion area
+- Count → Estimated lesion count
+
+Loss Function:
+Loss = Classification + 0.7 × Severity + 0.3 × Count
+
+---
+
+## 💡 Why This Work is Important
+
+- Reduces background noise using ROI-based learning
+- Combines global and local features effectively
+- Improves interpretability (focus on lesions)
+- Can be extended to other skin diseases
+- Suitable for real-world and clinical applications
+
+---
+
+## 🧠 Conclusion
+
+The proposed ROI-guided dual-stream architecture with Transformer and attention-based fusion significantly improves accuracy, robustness, and interpretability compared to traditional CNN-based approaches.
+
+---
+
+## 👨‍💻 Technologies Used
+
+- Python
+- PyTorch
+- torchvision
+- timm
+- OpenCV
+
+---
+
+## 📎 Future Work
+
+- Improve dataset diversity
+- Add real lesion count annotations
+- Deploy as a web/mobile application
+- Extend to multi-class skin disease detection
+
+---
