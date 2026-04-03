@@ -1,1 +1,1 @@
-# skin_cancer_detection
+# dual_stream acne detection using roi and deep learning
